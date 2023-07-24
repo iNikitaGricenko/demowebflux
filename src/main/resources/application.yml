@@ -1,0 +1,21 @@
+server:
+  port: 8080
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    username: root
+    password: password
+    url: jdbc:postgresql://localhost:5432/webflux
+  main:
+    allow-bean-definition-overriding: true
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+jwt:
+  password:
+    encoder:
+      secret: secret
+      iteration: 33
+      keylength: 256
