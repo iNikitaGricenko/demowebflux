@@ -24,7 +24,11 @@ public class AuthenticationManager implements ReactiveAuthenticationManager {
 				.map(auth -> jwtSigner.validate(auth.getCredentials().toString()))
 				.onErrorStop()
 				.map(jws -> userService.get(jws.getBody().getSubject()))
-				.map(user -> getAuthority(user, authentication));
+				.flatMap(user -> getAuthority(user, authentication));
+	}
+
+	private Mono<Authentication> getAuthority(Mono<User> userMono, Authentication authentication) {
+		return userMono.map(user -> getAuthority(user, authentication));
 	}
 
 	private Authentication getAuthority(User user, Authentication authentication) {

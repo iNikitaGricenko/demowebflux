@@ -6,6 +6,8 @@ import com.inikitagricenko.demo.webflux.enums.Role;
 import com.inikitagricenko.demo.webflux.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 
@@ -16,34 +18,41 @@ public class UserService {
 	private final UserInput userInput;
 	private final UserOutput userOutput;
 
-	public long save(User user) {
-		user.setRole(Role.USER);
-		user.setRegisteredAt(LocalDate.now());
-		return userInput.save(user);
+	public Mono<Long> save(Mono<User> user) {
+		return userInput.save(
+				user.map(it -> {
+					it.setRole(Role.USER);
+					it.setRegisteredAt(LocalDate.now());
+					return it;
+				}));
 	}
 
-	public User update(long id, User user) {
+	public Mono<User> update(long id, Mono<User> user) {
 		return userInput.update(id, user);
 	}
 
-	public long setOnline(User user) {
+	public Mono<Long> setOnline(Mono<User> user) {
 		return userInput.setOnline(user);
 	}
 
-	public long setOnline(long id) {
+	public Mono<Long> setOnline(long id) {
 		return userInput.setOnline(id);
 	}
 
-	public long setOnline(String email) {
+	public Mono<Long> setOnline(String email) {
 		return userInput.setOnline(email);
 	}
 
-	public User get(long id) {
+	public Mono<User> get(long id) {
 		return userOutput.get(id);
 	}
 
-	public User get(String email) {
+	public Mono<User> get(String email) {
 		return userOutput.get(email);
+	}
+
+	public Flux<User> getAll() {
+		return userOutput.getAll();
 	}
 
 }
