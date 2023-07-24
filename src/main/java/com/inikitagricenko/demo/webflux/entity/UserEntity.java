@@ -1,54 +1,46 @@
 package com.inikitagricenko.demo.webflux.entity;
 
 import com.inikitagricenko.demo.webflux.enums.Role;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.SQLDelete;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity(name = "`user`")
+@Table("user_entity")
 @Getter @Setter
-@SQLDelete(sql = "UPDATE user e " +
-        "SET deleted=true, deleted_at=now() " +
-        "WHERE e.user_id=?")
 public class UserEntity {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false)
 	private Long id;
 
-	@Column(name = "email", unique = true)
+	@Column("email")
 	private String email;
 
-	@Basic(fetch = FetchType.LAZY)
-	@Column(name = "password")
+	@Column("password")
 	private String password;
 
-	@Column(name = "first_name")
+	@Column("first_name")
 	private String firstName;
 
-	@Column(name = "last_name")
+	@Column("last_name")
 	private String lastName;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "role")
+	@Column("role")
 	private Role role;
 
-	@Basic(fetch = FetchType.LAZY)
-	@Column(name = "registered_at")
+	@Column("registered_at")
 	private LocalDate registeredAt;
 
-	@Basic(fetch = FetchType.LAZY)
-	@Column(name = "online_at")
+	@Column("online_at")
 	private LocalDateTime onlineAt;
 
-	@Column(name = "deleted")
+	@Column("deleted")
 	private boolean deleted = false;
 
-	@Column(name = "deleted_at")
+	@Column("deleted_at")
 	private LocalDateTime deletedAt;
 
 }

@@ -1,17 +1,18 @@
 package com.inikitagricenko.demo.webflux.adapter;
 
 import com.inikitagricenko.demo.webflux.model.User;
+import reactor.core.publisher.Mono;
 
 public interface UserInput {
 
-	long save(User user);
+	Mono<Long> save(Mono<User> user);
 
-	User update(long id, User user);
+	Mono<User> update(long id, Mono<User> user);
 
-	long setOnline(User user);
+	Mono<Long> setOnline(Mono<User> user);
 
-	long setOnline(long id);
+	Mono<Long> setOnline(long id);
 
-	long setOnline(String email);
+	Mono<Long> setOnline(String email);
 
 }
